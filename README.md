@@ -14,27 +14,27 @@ There was relatively little cleaning that I had to do for this dataset. I did, h
 I conducted some exploratory data analysis to try and determine which features contain the most signal in the data. These features will be the strongest indicators of whether or not a cancellation will occur.
 
 <p align="center">
-  <img width="900" height="450" src="img/is_repeat_guest.png">
+  <img width="800" height="600" src="img/repeat_guest.png">
 </p>
 
 There is a lot of signal in this data, which is to be expected given that the split is occurring on prior stays at the same hotel. Unfortunately, because the data is so imbalanced this feature may not be the best one to use, since the vast majority of the data will fall into one category. I will reserve it for now and perhaps add it in later on.
 
 <p align="center">
-  <img width="900" height="450" src="img/hotels.png">
+  <img width="800" height="600" src="img/hotels.png">
 </p>
 
 <p align="center">
-  <img width="900" height="450" src="img/num_special_requests.png">
+  <img width="800" height="600" src="img/num_special_requests.png">
 </p>
 
 <p align="center">
-  <img width="900" height="450" src="img/total_nights.png">
+  <img width="800" height="600" src="img/total_nights.png">
 </p>
 
 These graphs all feature quite a bit of signal in the data, and these features are more balanced than the `is_repeat_guest` feature. For my baseline model, I'll use these features and a few others.
 
 <p align="center">
-  <img width="900" height="450" src="img/dependent_var.png">
+  <img width="800" height="600" src="img/dependent_var.png">
 </p>
 
 There is a bit of a class imbalance in the dependent variable, `is_canceled`. I will take this into account when training my models by empirically choosing a balancing method (undersampling, oversampling, SMOTE, etc.) to apply to my data before training.
