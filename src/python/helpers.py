@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from imblearn.over_sampling import SMOTE, RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.model_selection import KFold
-from sklearn.metrics import precision_score
+from sklearn.metrics import precision_score, recall_score
 
 def balance_train_data(X, y, method=None):
     '''
@@ -46,8 +46,10 @@ def plot_cross_val(models, X, y, ax, sampling_method, names, n_splits=5):
 
     
     precisions = [] 
+    recalls = []
     for i in range(len(models)):
-        precisions.append([]) 
+        precisions.append([])
+        recalls.append([])
     
     for train, test in kf.split(X):
         X_test, y_test = X[test], y[test]
@@ -60,6 +62,7 @@ def plot_cross_val(models, X, y, ax, sampling_method, names, n_splits=5):
             y_pred = model.predict(X_test)
             
             precisions[i].append(precision_score(y_test, y_pred))
+            recalls[i].append(recall_score(y_test, y_pred))
     
     x = range(0, n_splits)
     colormap = {0 : 'r',
@@ -73,3 +76,6 @@ def plot_cross_val(models, X, y, ax, sampling_method, names, n_splits=5):
         ax.plot(x, precisions[i], c=colormap[i], 
                 linewidth=1, linestyle='-',
                 label='%s Precision' % names[i])
+        ax.plot(x, recalls[i], c=colormap[i], 
+                linewidth=1, linestyle='--',
+                label='%s Recall' % names[i])
