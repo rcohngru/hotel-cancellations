@@ -14,27 +14,27 @@ There was relatively little cleaning that I had to do for this dataset. I did, h
 I conducted some exploratory data analysis to try and determine which features contain the most signal in the data. These features will be the strongest indicators of whether or not a cancellation will occur.
 
 <p align="center">
-  <img width="600" height="450" src="img/repeat_guest.png">
+  <img width="600" height="450" src="img/eda/repeat_guest.png">
 </p>
 
 There is a lot of signal in this data, which is to be expected given that the split is occurring on prior stays at the same hotel. Unfortunately, because the data is so imbalanced this feature may not be the best one to use, since the vast majority of the data will fall into one category. I will reserve it for now and perhaps add it in later on.
 
 <p align="center">
-  <img width="600" height="450" src="img/hotels.png">
+  <img width="600" height="450" src="img/eda/hotels.png">
 </p>
 
 <p align="center">
-  <img width="600" height="450" src="img/num_special_requests.png">
+  <img width="600" height="450" src="img/eda/num_special_requests.png">
 </p>
 
 <p align="center">
-  <img width="600" height="450" src="img/total_nights.png">
+  <img width="600" height="450" src="img/eda/total_nights.png">
 </p>
 
 These graphs all feature quite a bit of signal in the data, and these features are more balanced than the `is_repeat_guest` feature. For my baseline model, I'll use these features and a few others.
 
 <p align="center">
-  <img width="600" height="450" src="img/dependent_var.png">
+  <img width="600" height="450" src="img/eda/dependent_var.png">
 </p>
 
 There is a bit of a class imbalance in the dependent variable, `is_canceled`. I will take this into account when training my models by empirically choosing a balancing method (undersampling, oversampling, SMOTE, etc.) to apply to my data before training.
@@ -43,7 +43,7 @@ There is a bit of a class imbalance in the dependent variable, `is_canceled`. I 
 The imbalance in the classes is not extreme, but it is not insignficant. Thus, any model that I use will tend to skew towards the majority class simply because it is represented more frequently in the data. I don't want the *amount* of data to unduly influence a classification, I want the patterns in the features of the data to be the determining factor when classifying.
 
 <p align="center">
-  <img width="900" height="350" src="img/over_under_viz.png">
+  <img width="900" height="350" src="img/balance/over_under_viz.png">
 </p>
 
 One method of accounting for a class imbalance in the data is to use **undersampling**. The concept behind undersampling is to randomly exclude some data in the majority class from the training set, so that the class distribution of the data follows an even 50/50 split. The key problem with undnersampling is that you end up with less data overall, which is never ideal.
@@ -74,7 +74,7 @@ The methods of balancing I used are:
 I will be using precision as the primary evaluation metric for these tests, since misclassifying a non-cancelling guest into the `cancelled` category is much more serious of an error than misclassifying a cancelling-guest into the `not cancelled` category. Essentialy, I want to maximize true positives while minimizing false positives. Precision is the metric that best represents this ratio.
 
 <p align="center">
-  <img width="900" height="450" src="img/no_balance.png">
+  <img width="900" height="450" src="img/balance/no_balance.png">
 </p>
 
 Not balancing the data actually proved to be the most effective strategy in this case, so I will move forward using this. If there's time later on, I'll come back and try to tune the balancers.
