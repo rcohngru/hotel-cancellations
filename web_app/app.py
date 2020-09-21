@@ -6,7 +6,7 @@ import sys
 import os
 import datetime
 
-sys.path.insert(0, '../src/python/')
+sys.path.insert(0, '../src/')
 from model import Model
 from helpers import *
 
@@ -30,10 +30,9 @@ def dash():
     cur.execute(query)
     obj = cur.fetchall()
     df = pd.DataFrame(obj, columns=['id', 'timestamp', 'hotel', 'party_size', 'market_segment',
-                                'room_difference', 'booking_changes', 'total_of_special_requests', 'total_nights',
-                                'arrival_year', 'arrival_month', 'arrival_day'])
-    X = clean_data(df, y_included=False)
-
+                                'room_difference', 'booking_changes', 'total_of_special_requests',
+                                'total_nights', 'arrival_year', 'arrival_month', 'arrival_day'])
+    X, _, cols = clean_data(df, y_included=False)
     dates = []
     for y, m, d in zip(df['arrival_year'], df['arrival_month'], df['arrival_day']):
         date = str(y) + '-' + str(m) + '-' + str(d)
