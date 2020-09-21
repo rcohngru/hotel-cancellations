@@ -3,13 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <title>Hello world!</title>
-  <link type="test/css" rel="stylesheet"
-        href="{{ url_for('static',
-              filename='hello.css')}}" />
+  <link type="text/css" rel="stylesheet"
+        href="../static/dash.css" />
 </head>
-<bidy>
-
-It works!
-
+<body>
+      <table>
+            <thead>
+                  <tr>
+                        <th>Booking Date</th>
+                        <th>Arrival Date</th>
+                        <th>Hotel</th>
+                        <th>Gross Profit</th>
+                        <th>Cancel. Prob.</th>
+                        <th>Predicted Room Demand</th>
+                        <th>Max Capacity</th>
+                  </tr>
+            </thead>
+            {% for book_date, arr_date, hotel, profit, prob, demand, capacity in items %}
+            <tbody>
+                  <tr class=>
+                        <td>{{book_date}}</td>
+                        <td>{{arr_date}}</td>
+                        <td>{{hotel}}</td>
+                        <td>{{"$%6.2f" % profit | float}}</td>
+                        <td style="background-color:
+                              {%- if prob < 0.5 -%} green {%- endif %}
+                              {%- if prob >= 0.5 and prob < 0.75 -%} orange {%- endif %}
+                              {%- if prob >= 0.75 -%} red {%- endif %}">
+                              <span style="color: white">{{"%0.3f" % prob | float}}</span>
+                        </td>
+                        <td style="background-color:
+                              {%- if demand >= capacity -%} red {%- endif %}
+                              {%- if demand >= capacity * 0.9  and demand < capacity -%} orange {%- endif %}
+                              {%- if demand < capacity * 0.9 -%} green {%- endif %}">
+                              <span style="color: white">{{demand}}</span>
+                        </td>
+                        <td>{{capacity}}</td>
+                  </tr>
+            {% endfor %}
+            </tbody>
+      </table>
 </body>
 </html>

@@ -12,14 +12,14 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 def dummify(X):
     dummy_cols = ['total_nights', 'total_of_special_requests', 'market_segment', 'party_size']
     X = pd.get_dummies(X, columns=dummy_cols, drop_first=True)
-    return X.to_numpy(), X.columns
+    return X.to_numpy()
 
 def clean_data(data, y_included=True):
     feats = ['hotel','market_segment', 'total_of_special_requests',
          'total_nights', 'room_difference', 'party_size', 'booking_changes']
     X = data[feats].copy()
 
-    
+
     dummifiable_df = pd.DataFrame({
             'hotel' : [0, 1, 0, 1, 0, 0, 1, 1],
             'market_segment' : ['Offline TA/TO', 'Online TA',
@@ -43,14 +43,14 @@ def clean_data(data, y_included=True):
     X.loc[np.argwhere((X['party_size'] >= 3).values).flatten(), 'party_size'] = 3
     X.loc[np.argwhere((X['party_size'] == 0).values).flatten(), 'party_size'] = 2
     X.loc[np.argwhere((X['booking_changes'] >= 1).values).flatten(), 'booking_changes'] = 1
-    X, cols = dummify(X)
+    X = dummify(X)
 
     if y_included:
         y = data[['is_canceled']].to_numpy()
     else:
         y = None
 
-    return X[0 : data.shape[0], :], y, cols
+    return X[0 : data.shape[0], :], y
 
 def get_day_counts(data):
     start_day = (data['full_date'] - np.min(data['full_date'])).dt.days
