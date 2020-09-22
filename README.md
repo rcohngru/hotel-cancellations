@@ -218,6 +218,6 @@ To start, I reserved all reservations that began in August of 2017 to use as my 
 This is a simple diagram visualizing the tech stack as it exists currently. This will be subject to change once everything is running on the EC2.
 
 <p align="center">
-  <img width="900" height="900" src="img/app/webapp.png">
+  <img width="900" height="600" src="img/app/webapp.png">
 </p>
 This is a screenshot of the dashboard that I built using Flask.
