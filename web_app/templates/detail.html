@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="utf-8" />
+        <title>Reservation Details</title>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    </head>
+    <body>
+        <h1>Reservation Information</h1>
+        <table>
+            <tr>
+                <td style="font-weight: bold;">Reservation Id:</td>
+                <td>    </td>
+                <td>{{data['id'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Booking Date:</td>
+                <td>    </td>
+                <td>{{book_date[0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Arrival Date:</td>
+                <td>    </td>
+                <td>{{arr_date[0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Venue:</td>
+                <td>    </td>
+                <td>{{data['hotel'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Length of Stay:</td>
+                <td>    </td>
+                <td>{{"%s nights" % data['total_nights'][0] | string}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Revenue Per Night:</td>
+                <td>    </td>
+                <td>{{"$%5.2f" % data['adr'][0] | float}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Num. Adults:</td>
+                <td>    </td>
+                <td>{{data['adults'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Num. Children:</td>
+                <td>    </td>
+                <td>{{data['children'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Num. Babies:</td>
+                <td>    </td>
+                <td>{{data['babies'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Room Type:</td>
+                <td>    </td>
+                <td>{{data['assigned_room_type'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Parking Spots:</td>
+                <td>    </td>
+                <td>{{data['required_car_parking_spaces'][0]}}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Deposit Type:</td>
+                <td>    </td>
+                <td>{{data['deposit_type'][0]}}</td>
+            </tr>
+
+        </table>
+
+        </div>
+    </body>
+</html>

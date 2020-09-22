@@ -2,43 +2,178 @@
 <html lang='en'>
 <head>
   <meta charset="utf-8" />
-  <title>Hello world!</title>
+  <title>Reservation Dashboard</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
   <link type="text/css" rel="stylesheet"
         href="../static/dash.css" />
 </head>
 <body>
-      <table>
+      <h1 style="text-align: center;">Your Dashboard</h1>
+
+      <div align="center" width=500 height=250>
+            <canvas id="chart1" width="200" height="200" style="margin-right: 50px;"></canvas>
+            <canvas id="chart2" width="400" height="200" style="margin-left: 50px;"></canvas>
+      </div>
+      <div align="center" style="margin-top: 25px;">
+            <h3 style="text-align: center;">Daily Profit - August</h4>
+            <canvas id="chart3" width="700" height="300" ></canvas>
+      </div>
+
+
+      <script>
+            var pieData = [
+              {% for item, label, colors in set %}
+                {
+                  value: {{item}},
+                  label: "{{label}}",
+                  color : "{{colors}}"
+                },
+              {% endfor %}
+            ];
+
+            // get bar chart canvas
+            var mychart = document.getElementById("chart1").getContext("2d");
+            steps = 10
+            max = {{max}}
+
+            // draw pie chart
+            new Chart(document.getElementById("chart1").getContext("2d")).Pie(pieData);
+      </script>
+
+      <script>
+            // bar chart data
+            var barData = {
+                  labels : [
+                  {% for item in bar_labels %}
+                        "{{ item }}",
+                  {% endfor %}
+                  ],
+
+                  datasets : [{
+                  fillColor: "rgba(151,187,205,0.2)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  data : [
+                        {% for item in bar_values %}
+                        "{{ item }}",
+                        {% endfor %}
+                        ]
+                  }]
+            }
+
+            // get bar chart canvas
+            var mychart = document.getElementById("chart2").getContext("2d");
+                  steps = 3
+                  max = {{max_risk}}
+
+            // draw bar chart
+            new Chart(mychart).Bar(barData, {
+                  //scaleOverride: true,
+                  scaleSteps: steps,
+                  scaleStepWidth: Math.ceil(max / steps),
+                  scaleStartValue: 0,
+                  scaleShowVerticalLines: true,
+                  scaleShowGridLines : true,
+                  barShowStroke : true,
+                  scaleShowLabels: true
+                  }
+            );
+      </script>
+
+      <script>
+
+            // bar chart data
+            var barData = {
+            labels : [
+            {% for item in dates %}
+                  "{{ item }}",
+            {% endfor %}
+            ],
+
+            datasets : [{
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            bezierCurve : false,
+            data : [
+            {% for item in profits %}
+                  {{ item }},
+                  {% endfor %}]
+            }]
+            }
+
+            Chart.defaults.global.animationSteps = 50;
+            Chart.defaults.global.tooltipYPadding = 16;
+            Chart.defaults.global.tooltipCornerRadius = 0;
+            Chart.defaults.global.tooltipTitleFontStyle = "normal";
+            Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+            Chart.defaults.global.animationEasing = "easeOutBounce";
+            Chart.defaults.global.responsive = false;
+            Chart.defaults.global.scaleLineColor = "black";
+            Chart.defaults.global.scaleFontSize = 16;
+
+            // get bar chart canvas
+            var mychart = document.getElementById("chart3").getContext("2d");
+
+            steps = 10
+            max = {{max_profit}}
+            // draw bar chart
+            var LineChartDemo = new Chart(mychart).Line(barData, {
+            scaleOverride: true,
+            scaleSteps: steps,
+            scaleStepWidth: Math.ceil(max / steps),
+            scaleStartValue: 0,
+            scaleShowVerticalLines: true,
+            scaleShowGridLines : true,
+            barShowStroke : true,
+            scaleShowLabels: true,
+            bezierCurve: false,
+            });
+
+      </script>
+
+
+      <h2 style="margin-top: 1cm;" align="center">Recent Reservations</h2>
+
+      <table align="center">
             <thead>
                   <tr>
-                        <th>Booking Date</th>
-                        <th>Arrival Date</th>
-                        <th>Hotel</th>
-                        <th>Gross Profit</th>
-                        <th>Cancel. Prob.</th>
-                        <th>Predicted Room Demand</th>
-                        <th>Max Capacity</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Reservation Id</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Booking Date</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Arrival Date</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Hotel</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Gross Profit</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Cancel. Prob.</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Predicted Room Demand</th>
+                        <th style="border: 1px solid #999; background-color:#F8F8F8; text-align: center;">Max Capacity</th>
                   </tr>
             </thead>
-            {% for book_date, arr_date, hotel, profit, prob, demand, capacity in items %}
+            {% for id, book_date, arr_date, hotel, profit, prob, demand, capacity in items %}
             <tbody>
-                  <tr class=>
-                        <td>{{book_date}}</td>
-                        <td>{{arr_date}}</td>
-                        <td>{{hotel}}</td>
-                        <td>{{"$%6.2f" % profit | float}}</td>
-                        <td style="background-color:
-                              {%- if prob < 0.5 -%} green {%- endif %}
-                              {%- if prob >= 0.5 and prob < 0.75 -%} orange {%- endif %}
-                              {%- if prob >= 0.75 -%} red {%- endif %}">
+                  <tr>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:#E8E8E8">
+                              <a href="{{url_for('detail', id=id)}}">{{id}}</a>
+                        </td>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:#E8E8E8">{{book_date}}</td>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:#E8E8E8">{{arr_date}}</td>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:#E8E8E8">{{hotel}}</td>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:#E8E8E8">{{"$%6.2f" % profit | float}}</td>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:
+                              {%- if prob < 0.5 -%} #32CD32 {%- endif %}
+                              {%- if prob >= 0.5 and prob < 0.75 -%} #FDB45C {%- endif %}
+                              {%- if prob >= 0.75 -%} #F7464A {%- endif %}">
                               <span style="color: white">{{"%0.3f" % prob | float}}</span>
                         </td>
-                        <td style="background-color:
-                              {%- if demand >= capacity -%} red {%- endif %}
-                              {%- if demand >= capacity * 0.9  and demand < capacity -%} orange {%- endif %}
-                              {%- if demand < capacity * 0.9 -%} green {%- endif %}">
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:
+                              {%- if demand >= capacity -%} #F7464A {%- endif %}
+                              {%- if demand >= capacity * 0.9  and demand < capacity -%} #FDB45C {%- endif %}
+                              {%- if demand < capacity * 0.9 -%} #32CD32 {%- endif %}">
                               <span style="color: white">{{demand}}</span>
                         </td>
-                        <td>{{capacity}}</td>
+                        <td style="border: 1px solid #999; text-align: ceter; background-color:#E8E8E8">{{capacity}}</td>
                   </tr>
             {% endfor %}
             </tbody>
