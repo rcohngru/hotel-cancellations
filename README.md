@@ -108,7 +108,7 @@ Across both `mdi` and `mda` the most important features are pretty similar and t
   <img width="900" height="450" src="img/results/roc_curve.png">
 </p>
 
-The receiver operating characteristic (ROC) curve compares the true positive rates and false positive rates for the models at different discrimination thresholds, and it is very useful when determining which model is best. In this case, the Random Forest Classifier is the best with an area under curve (AUC) value of 0.81, which tells us that the model has an 81% chance of correctly classifying cancellations.
+The receiver operating characteristic (ROC) curve compares the true positive rates and false positive rates for the models at different discrimination thresholds, and it is very useful when determining which model is best. In this case, the Random Forest Classifier is the best with an area under curve (AUC) value of 0.82, which tells us that the model has an 82% chance of correctly classifying cancellations.
 
 Of course, this classification problem has a real business case, so the best way to quantify how successful the model is is to create a cost-benefit matrix and plot a profit curve. A cost-benefit matrix can be used to show the costs and profits associated with the 4 possible outcomes in a binary classification problem: true positives, false positives, true negatives, and false negatives.
 
@@ -124,7 +124,7 @@ A `true negative` occurs when the model correctly predicts that a guest will not
 
 A `false negative` occurs when the model predicts the guest will not cancel and they actually do. In this case, the hotel makes no profit but still has to pay the expenses associated with each room.
 
-|  ///////////////   | Predict Cancel | Predict No Cancel |
+|                    | Predict Cancel | Predict No Cancel |
 |--------------------|----------------|-------------------|
 |  Actually Cancel   |      $123      |       -$183       |
 | Actually No Cancel |     -$1830     |        $123       |
@@ -146,32 +146,32 @@ This confusion matrix for the test dataset confirms that. Many of the true cance
 In the second part of this project I focused on predicting demand. For the sake of simplicity I decided to assume that there were only two hotels: the resort hotel and the city hotel.
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/non_cancel.png">
+  <img width="900" height="300" src="img/demand/non_cancel.png">
 </p>
 
 This chart shows a moving 3-day average of room occupancies for non-cancellations. These values allow me to actually figure out how many rooms total were available on any given day. The resort hotel appears to have somewhere between 225-250 units, while the city hotel has 300-350 rooms available on any given day.
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/all_res.png">
+  <img width="900" height="300" src="img/demand/all_res.png">
 </p>
 
 This chart adds all of the canceled reservations to the previous ones, showing that already there is probably some overbooking going on. There is also some distinct seasonality in these charts. November through January seems to be the offseason, with the one notable exception in this time frame being the holidays.
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/resort_decomp.png">
+  <img width="900" height="720" src="img/demand/resort_decomp.png">
 </p>
 
 Breaking the trend lines down into their components better lets us see this seasonality as well as any other long-term trends. The data for the resort is much more obviously seasonal than the data for the city, which is intuitive. People are far more likely to plan a city-based vacation at any point during the year than they are to plan a resort-based one.
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/city_decomp.png">
+  <img width="900" height="720" src="img/demand/city_decomp.png">
 </p>
 
 ## Baseline
 At this point I'm going to establish a baseline. Although the dataset is relatively small, the baseline prediction for any day will be the average number of rooms occupied on that day in all previous years, taking into account the linear trend of the hotel. I am going to reserve a 3-month window at the end of the data to be used as test data in order to compute RMSE scores, but I will also forecast to the end of the year to see how the predictions look.
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/baseline_2018.png">
+  <img width="900" height="480" src="img/demand/baseline_2018.png">
 </p>
 
 ## SARIMA
@@ -184,14 +184,14 @@ In addition to the baseline I decided to try my hand at using a SARIMA model. Wi
 | `m` |   1    |   1  |
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/sarima_2018.png">
+  <img width="900" height="480" src="img/demand/sarima_2018.png">
 </p>
 
 ## Facebook Prophet
 I also decided to try using Facebook's prophet model. Unfortunately, Prophet is a black box model so there is not much I can say about the inner workings of it.
 
 <p align="center">
-  <img width="900" height="450" src="img/demand/prophet_2018.png">
+  <img width="900" height="480" src="img/demand/prophet_2018.png">
 </p>
 
 ## Results
@@ -213,11 +213,11 @@ I decided to combine parts 1 and 2 into a useable model. The model takes in data
 To start, I reserved all reservations that began in August of 2017 to use as my "test" dataset, assigning them fake `booking_date` timestamps in the process. I loaded this data into a table called `reservations` in a Postgres database on Docker. While I was doing this I trained a model on the rest of the data and `pickled` it. I wrote a simple script, `database.py`, that uses `psycopg2` to query the `reservations` table for new data to make predictions. These predictions are then passed to a second table in the Postgres database, called `predictions`. I built a Flask web app that also utilizes `psycopg2` to query the `predictions` table for reservations and their associated predictions, displaying relevant information in a dashboard ordered by `booking_date`. For now all of this only works locally, however I am in the process of figuring out how to put all of this onto an AWS EC2 instance.
 
 <p align="center">
-  <img width="900" height="450" src="img/app/stack.png">
+  <img width="900" height="600" src="img/app/stack.png">
 </p>
 This is a simple diagram visualizing the tech stack as it exists currently. This will be subject to change once everything is running on the EC2.
 
 <p align="center">
-  <img width="900" height="450" src="img/app/webapp.png">
+  <img width="900" height="900" src="img/app/webapp.png">
 </p>
 This is a screenshot of the dashboard that I built using Flask.
