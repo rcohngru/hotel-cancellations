@@ -136,7 +136,7 @@ A `false negative` occurs when the model predicts the guest will not cancel and 
 Rather than using an ideal discrimination threshold from the ROC curve, I can instead choose a discrimination threshold that best fits my cost-benefit matrix, since the hotel is interested in maximizing profit. The random forest model computes probabilities that a reservation is a cancellation, by applying my cost-benefit matrix to the distribution of true and false positives and negatives at different discrimination thresholds I can identify the best one. In this case, a threshold of 0.81 results in the highest amount of profit. This threshold is particularly high because the cost-benefit matrix is weighted so negatively towards false positives. Have multiple false negatives is substantially less expensive than having false positives.
 
 <p align="center">
-  <img width="900" height="450" src="img/results/profit_curve.png">
+  <img width="900" height="450" src="img/results/conf_matrix.png">
 </p>
 
 This confusion matrix for the test dataset confirms that. Many of the true cancellations are predicted as being non-cancellations because the acceptance threshold for a cancellation is so high.
