@@ -84,7 +84,7 @@ Not balancing the data actually proved to be the most effective strategy in this
 After determining that the data did not need any rebalancing before training on the models, I decided to move forward and began hyperparameter tuning my models. I chose to tune both the Random Forest Classifier and the Gradient Boosting Classifier. Again, my evaluation metric was the f1-score.
 
 <p align="center">
-  <img width="900" height="400" src="img/tuning/tuned_models.png">
+  <img width="900" height="500" src="img/tuning/tuned_models.png">
 </p>
 
 With an f1-score of ~0.68, the Random Forest Classifier was the best model over the Gradient Booster or Regression models.
@@ -136,7 +136,7 @@ A `false negative` occurs when the model predicts the guest will not cancel and 
 Rather than using an ideal discrimination threshold from the ROC curve, I can instead choose a discrimination threshold that best fits my cost-benefit matrix, since the hotel is interested in maximizing profit. The random forest model computes probabilities that a reservation is a cancellation, by applying my cost-benefit matrix to the distribution of true and false positives and negatives at different discrimination thresholds I can identify the best one. In this case, a threshold of 0.81 results in the highest amount of profit. This threshold is particularly high because the cost-benefit matrix is weighted so negatively towards false positives. Have multiple false negatives is substantially less expensive than having false positives.
 
 <p align="center">
-  <img width="900" height="450" src="img/results/conf_matrix.png">
+  <img width="600" height="600" src="img/results/conf_matrix.png">
 </p>
 
 This confusion matrix for the test dataset confirms that. Many of the true cancellations are predicted as being non-cancellations because the acceptance threshold for a cancellation is so high.
