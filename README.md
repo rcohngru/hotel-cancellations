@@ -75,7 +75,7 @@ The methods of balancing I used are:
 My evaluation metric will be the f1-score.
 
 <p align="center">
-  <img width="900" height="450" src="img/balance/no_balance.png">
+  <img width="600" height="200" src="img/balance/no_balance.png">
 </p>
 
 Not balancing the data actually proved to be the most effective strategy in this case, so I decided to move forward with the data as is. It is likely that this is the case because the data is not too imbalanced.
