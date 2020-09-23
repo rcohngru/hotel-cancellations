@@ -84,7 +84,7 @@ Not balancing the data actually proved to be the most effective strategy in this
 After determining that the data did not need any rebalancing before training on the models, I decided to move forward and began hyperparameter tuning my models. I chose to tune both the Random Forest Classifier and the Gradient Boosting Classifier. Again, my evaluation metric was the f1-score.
 
 <p align="center">
-  <img width="900" height="500" src="img/tuning/tuned_models.png">
+  <img width="900" height="450" src="img/tuning/tuned_models.png">
 </p>
 
 With an f1-score of ~0.68, the Random Forest Classifier was the best model over the Gradient Booster or Regression models.
